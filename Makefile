@@ -4,7 +4,7 @@ SRCS = main.c
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 INC_DIR := incs
-INCS = cub3d.h
+INCS = cub3d.h keys.h
 LIBFT = -Ilibft -Llibft -lft
 LIBFT_DIR = libft
 CC = cc
