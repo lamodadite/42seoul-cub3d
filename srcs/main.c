@@ -6,13 +6,13 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/02 18:16:08 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:26:07 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub.h"
 
-int	worldMap[mapWidth][mapHeight] =
+int	worldMap[MAP_WIDTH][MAP_HEIGHT] =
 						{
 							{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
 							{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
