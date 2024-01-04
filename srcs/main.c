@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/03 17:26:07 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/04 22:07:25 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,8 +422,8 @@ int	main(void)
 
 	load_texture(&info);
 
-	info.move_speed = 0.1;
-	info.rot_speed = 0.1;
+	info.move_speed = 0.13;
+	info.rot_speed = 0.13;
 	
 	info.win = mlx_new_window(info.mlx, WIDTH, HEIGHT, "mlx");
 

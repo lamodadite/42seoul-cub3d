@@ -87,23 +87,31 @@ typedef struct	s_info
 	int		re_buf;
 }				t_info;
 
-/* cu_parse_map.c */
+/* cu_parse_texture.c */
 void	print_error_and_exit(char *message);
 void	init_map(t_map *map);
 void	check_map_name(char *map_name);
-int		is_map_element(char *line);
+int		is_map_element(char c);
 int		is_texture_identifier(char *line);
 int		is_texture_element(char *line);
-void	is_duplicated_path(int identifier, char *path, t_texture *texture);
-void	is_valid_path(int identifier, char *path, t_texture *texture);
+void	is_duplicated_path(int identifier, char *path, t_map *map);
+void	is_valid_path(int identifier, char *path, t_map *map);
 void	set_texture_path(t_map *map, char *line);
 void	get_texture(t_map *map, int fd);
 void	load_file(char *map_path, t_map *map);
+
+/* cu_parse_map.c */
+void	get_map(t_map *map, int fd, char *map_path);
+void	set_map_width_height(t_map *map, int fd);
+char	*move_to_map_element(int fd);
+void	set_map_width(t_map *map, char *line);
 
 /* cu_utils.c */
 void	free_2d_array(char **arr);
 
 /* cu_debug.c */
 void	print_texture_struct(t_texture *texture);
+void	print_map_struct(t_map *map);
+void	print_2d_arr(char **s, int arr_cnt);
 
 #endif

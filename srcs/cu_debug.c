@@ -12,3 +12,18 @@ void	print_texture_struct(t_texture *texture)
 	printf("f_color -> %s\n", texture->f_color);
 	printf("\n");
 }
+
+void	print_map_struct(t_map *map)
+{
+	//print_2d_arr(map->map, map->height);
+	printf("width -> %d\n", map->width);
+	printf("height -> %d\n", map->height);
+}
+
+void	print_2d_arr(char **s, int arr_cnt)
+{
+	for (int i = 0; i < arr_cnt; i++)
+	{
+		printf("%s\n", s[i]);
+	}
+}

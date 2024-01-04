@@ -12,5 +12,6 @@ int	main(int argc, char **argv)
 	check_map_name(argv[1]);
 	load_file(argv[1], &map);
 	print_texture_struct(map.texture);
+	print_map_struct(&map);
 	return (0);
 }
