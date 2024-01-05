@@ -14,6 +14,28 @@ void	set_map_width(t_map *map, char *line)
 		map->width = i;
 }
 
+int	is_map_element_arr(char *line)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	flag = 0;
+	if (line[0] == '\n')
+		return (0);
+	while (line[i] != '\0' && line[i] != '\n')
+	{
+		if (is_map_element(line[i]) == 0)
+			return (0);
+		if (line[i] != ' ')
+			flag = 1;
+		i++;
+	}
+	if (flag == 0)
+		return (0);
+	return (1);
+}
+
 char	*move_to_map_element(int fd)
 {
 	char	*line;
@@ -21,10 +43,11 @@ char	*move_to_map_element(int fd)
 	line = get_next_line(fd);
 	while (1)
 	{
+		//printf("%s\n", line);
 		if (line == NULL)
 			return (line);
-		if (is_map_element(line[0]) == 1 && is_texture_identifier(line) == 0)
-			break;
+		if (is_map_element_arr(line) == 1)
+			break ;
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -36,9 +59,9 @@ void	set_map_width_height(t_map *map, int fd)
 	char	*line;
 
 	line = move_to_map_element(fd);
+	//printf("%s\n", line);
 	while (1)
 	{
-		printf("%s\n", line);
 		if (line == NULL)
 			break ;
 		else if (ft_strncmp(line, "\n", 1) == 1)
@@ -62,9 +85,9 @@ void	pre_set_map(t_map *map)
 	int	j;
 
 	i = -1;
-	map->map = (char **)ft_calloc(sizeof(char *), map->height);
+	map->map = (char **)ft_calloc(sizeof(char *), map->height + 1);
 	while (++i < map->height)
-		map->map[i] = (char *)ft_calloc(sizeof(char), map->width);
+		map->map[i] = (char *)ft_calloc(sizeof(char), map->width + 1);
 	i = -1;
 	while (++i < map->height)
 	{
@@ -85,11 +108,11 @@ void	set_map_component(t_map *map, char *line, int height_cnt, int *pos_flag)
 	{
 		if (line[width] != ' ' && line[width] != '0' && line[width] != '1')
 		{
-			printf("height_cnt -> %d, width -> %d, line[width] -> %c\n", height_cnt, width, line[width]);
 			if (*pos_flag == 1)
-				print_error_and_exit("charater must be one\n");
+				print_error_and_exit("character must be one\n");
 			*pos_flag = 1;
 		}
+		//printf("height_cnt -> %d, width -> %d, line[width] -> %c, %d\n", height_cnt, width, line[width], line[width]);
 		map->map[height_cnt][width] = line[width];
 		width++;
 	}
@@ -107,7 +130,7 @@ void	set_map_elements(t_map *map, char *map_path)
 	if (fd < 0)
 		print_error_and_exit("file open error\n");
 	line = move_to_map_element(fd);
-	printf("%s\n", line);
+	//printf("%s\n", line);
 	pre_set_map(map);
 	height_cnt = 0;
 	while (1)
@@ -124,8 +147,48 @@ void	set_map_elements(t_map *map, char *map_path)
 	close(fd);
 }
 
+void	check_map_is_surrouned(t_map *map, int h, int w)
+{
+	printf("h -> %d, w -> %d\n", h, w);
+	if (h - 1 < 0)
+		print_error_and_exit("h -> %d, w -> %d\n map must be closed by wall\n", h, w);
+	else if (h - 1 >= 0 && (map->map[h - 1][w] != ' ' && map->map[h - 1][w] != '1'))
+		print_error_and_exit("map must be closed by wall\n");
+	if (h + 1 >= map->height)
+		print_error_and_exit("map must be closed by wall\n");
+	else if (map->map[h + 1][w] != ' ' && map->map[h + 1][w] != '1')
+		print_error_and_exit("map must be closed by wall\n");
+	if (w + 1 >= map->width)
+		print_error_and_exit("map must be closed by wall\n");
+	else if (map->map[h][w + 1] != ' ' && map->map[h][w + 1] != '1')
+		print_error_and_exit("map must be closed by wall\n");
+	if (w - 1 < 0)
+		print_error_and_exit("map must be closed by wall\n");
+	else if (map->map[h][w - 1] != ' ' && map->map[h][w - 1] != '1')
+		print_error_and_exit("map must be closed by wall\n");
+}
+
+void	check_map_is_valid(t_map *map)
+{
+	int	x;
+	int	y;
+
+	x = -1;
+	while (++x < map->height)
+	{
+		y = -1;
+		while (++y < map->width)
+		{
+			printf("x -> %d, y -> %d\n", x, y);
+			if (map->map[x][y] != ' ' && map->map[x][y] != '1')
+				check_map_is_surrouned(map, x, y);
+		}
+	}
+}
+
 void	get_map(t_map *map, int fd, char *map_path)
 {
 	set_map_width_height(map, fd);
 	set_map_elements(map, map_path);
+	check_map_is_valid(map);
 }

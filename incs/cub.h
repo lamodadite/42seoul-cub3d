@@ -105,6 +105,8 @@ void	get_map(t_map *map, int fd, char *map_path);
 void	set_map_width_height(t_map *map, int fd);
 char	*move_to_map_element(int fd);
 void	set_map_width(t_map *map, char *line);
+void	check_map_is_surrouned(t_map *map, int h, int w);
+void	check_map_is_valid(t_map *map);
 
 /* cu_utils.c */
 void	free_2d_array(char **arr);

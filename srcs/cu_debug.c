@@ -15,9 +15,9 @@ void	print_texture_struct(t_texture *texture)
 
 void	print_map_struct(t_map *map)
 {
-	//print_2d_arr(map->map, map->height);
 	printf("width -> %d\n", map->width);
 	printf("height -> %d\n", map->height);
+	print_2d_arr(map->map, map->height);
 }
 
 void	print_2d_arr(char **s, int arr_cnt)

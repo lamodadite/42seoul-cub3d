@@ -58,17 +58,17 @@ int	is_texture_identifier(char *line)
 	int	result;
 
 	result = 0;
-	if (ft_strncmp(line, "NO", 2) == 0)
+	if (ft_strncmp(line, "NO", 3) == 0)
 		result = 1;
-	else if (ft_strncmp(line, "SO", 2) == 0)
+	else if (ft_strncmp(line, "SO", 3) == 0)
 		result = 2;
-	else if (ft_strncmp(line, "EA", 2) == 0)
+	else if (ft_strncmp(line, "EA", 3) == 0)
 		result = 3;
-	else if (ft_strncmp(line, "WE", 2) == 0)
+	else if (ft_strncmp(line, "WE", 3) == 0)
 		result = 4;
-	else if (ft_strncmp(line, "F", 1) == 0)
+	else if (ft_strncmp(line, "F", 2) == 0)
 		result = 5;
-	else if (ft_strncmp(line, "C", 1) == 0)
+	else if (ft_strncmp(line, "C", 2) == 0)
 		result = 6;
 	return (result);
 }
@@ -81,10 +81,7 @@ int	is_texture_element(char *line)
 	splited_line = ft_split(line, ' ');
 	result = 0;
 	if (is_texture_identifier(splited_line[0]) == 0)
-	{
-		printf("%s\n", splited_line[0]);
 		result = 1;
-	}
 	else if (splited_line[1] == NULL)
 		result = 1;
 	else if (splited_line[2] != NULL)
@@ -178,8 +175,6 @@ void	get_texture(t_map *map, int fd)
 			break ;
 		else if (ft_strncmp(line, "\n", 2) == 0)
 			continue ;
-		//else if (is_map_element(line[0]) == 1)
-		//	print_error_and_exit("check element order\n");
 		else if (is_texture_element(line) == 0)
 			set_texture_path(map, line);
 		else
