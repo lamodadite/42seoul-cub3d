@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/05 16:20:14 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/07 15:52:15 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub.h"
 
-int	worldMap[mapWidth][mapHeight] =
+int	worldMap[MAP_WIDTH][MAP_HEIGHT] =
 						{
 							{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
 							{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
@@ -422,9 +422,9 @@ int	main(void)
 
 	load_texture(&info);
 
-	info.move_speed = 0.1;
-	info.rot_speed = 0.1;
-
+	info.move_speed = 0.13;
+	info.rot_speed = 0.13;
+	
 	info.win = mlx_new_window(info.mlx, WIDTH, HEIGHT, "mlx");
 
 	info.img.img = mlx_new_image(info.mlx, WIDTH, HEIGHT);
