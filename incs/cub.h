@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/07 15:34:57 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/07 17:37:08 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_texture
 	char	*so_path;
 	char	*we_path;
 	char	*ea_path;
-	char	*c_color;
-	char	*f_color;
+	int		c_color[3];
+	int		f_color[3];
 }	t_texture;
 
 typedef struct s_map
@@ -174,6 +174,7 @@ void	check_map_is_valid(t_map *map);
 
 /* cu_utils.c */
 void	free_2d_array(char **arr);
+int		get_str_2d_len(char **s);
 
 /* cu_debug.c */
 void	print_texture_struct(t_texture texture);

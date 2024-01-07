@@ -18,8 +18,8 @@ void	init_map(t_map *map)
 	map->texture.no_path = NULL;
 	map->texture.so_path = NULL;
 	map->texture.we_path = NULL;
-	map->texture.c_color = NULL;
-	map->texture.f_color = NULL;
+	map->texture.f_color[0] = -1;
+	map->texture.c_color[0] = -1;
 }
 
 void	check_map_name(char *map_name)
@@ -130,6 +130,35 @@ void	is_valid_path(int identifier, char *path, t_map *map)
 	}
 }
 
+void	check_color_is_valid(t_map *map, char *line, char identifier)
+{
+	char	**splited_line;
+	int		i;
+	int		j;
+
+	if (line[ft_strlen(line) - 1] == '\n')
+		line[ft_strlen(line) - 1] = '\0';
+	splited_line = ft_split(line, ',');
+	if (get_str_2d_len(splited_line) != 3)
+		print_error_and_exit("invalid color1\n");
+	i = -1;
+	while (++i < 3)
+	{
+		if (ft_strlen(splited_line[i]) > 3)
+			print_error_and_exit("invalid color2\n");
+		j = -1;
+		while (++j < (int)ft_strlen(splited_line[i]))
+		{
+			if (ft_isdigit(splited_line[i][j]) == 0)
+				print_error_and_exit("invalid color3\n");
+		}
+		if (identifier == 'F')
+			map->texture.f_color[i] = ft_atoi(splited_line[i]);
+		else if (identifier == 'C')
+			map->texture.c_color[i] = ft_atoi(splited_line[i]);
+	}
+}
+
 void	set_texture_path(t_map *map, char *line)
 {
 	char		**splited_line;
@@ -145,12 +174,12 @@ void	set_texture_path(t_map *map, char *line)
 		map->texture.we_path = ft_strdup(splited_line[1]);
 	else if (identifier == EA && map->texture.ea_path == NULL)
 		map->texture.ea_path = ft_strdup(splited_line[1]);
-	else if (identifier == F && map->texture.f_color == NULL)
-		map->texture.f_color = ft_strdup(splited_line[1]);
-	else if (identifier == C && map->texture.c_color == NULL)
-		map->texture.c_color = ft_strdup(splited_line[1]);
+	else if (identifier == F && map->texture.f_color[0] == -1)
+		check_color_is_valid(map, splited_line[1], 'F');
+	else if (identifier == C && map->texture.c_color[0] == -1)
+		check_color_is_valid(map, splited_line[1], 'C');
 	else
-		print_error_and_exit("identifier is duplicated\n");
+		print_error_and_exit("identifier is duplicated1\n");
 	is_valid_path(identifier, splited_line[1], map);
 	free_2d_array(splited_line);
 	map->texture.cnt++;

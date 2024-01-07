@@ -8,8 +8,12 @@ void	print_texture_struct(t_texture texture)
 	printf("so_path -> %s\n", texture.so_path);
 	printf("we_path -> %s\n", texture.we_path);
 	printf("ea_path -> %s\n", texture.ea_path);
-	printf("c_color -> %s\n", texture.c_color);
-	printf("f_color -> %s\n", texture.f_color);
+	printf("c_color -> ");
+	for (int i = 0; i < 3; i++)
+		printf("%d ", texture.c_color[i]);
+	printf("f_color -> ");
+	for (int i = 0; i < 3; i++)
+		printf("%d ", texture.f_color[i]);
 	printf("\n");
 }
 
