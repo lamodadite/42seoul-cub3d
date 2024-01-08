@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/05 16:17:34 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/08 10:27:21 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-int	worldMap[mapHeight][mapWidth] =
-						{
-							{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-							{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-							{4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-							{4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-							{4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-							{4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-							{4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-							{4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-							{4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-							{4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-							{4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-							{4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-							{6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-							{8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-							{6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-							{4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-							{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-							{4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-							{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-							{4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-							{4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-							{4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-							{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-							{4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
-						};
 
 void	draw(t_info *info)
 {
@@ -57,52 +29,27 @@ void	draw(t_info *info)
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
+	t_map	map;
 	t_info	info;
 
-	info.mlx = mlx_init();
-	info.pos.x = 22.01;
-	info.pos.y = 11.51;
-	info.dir.x = -1.0;
-	info.dir.y = 0.0;
-	info.plane.x = 0.0;
-	info.plane.y = 0.66;
-	info.re_buf = 0;
-
-	for (int i = 0; i < HEIGHT; i++)
+	if (ac != 2)
 	{
-		for (int j = 0; j < WIDTH; j++)
-			info.buf[i][j] = 0;
+		print_error_and_exit("need one map file\n");
+		return (1);
 	}
-	if (!(info.texture = (int **)malloc(sizeof(int *) * 8)))
-		return (-1);
-	for (int i = 0; i < 8; i++)
-	{
-		if (!(info.texture[i] = (int *)malloc(sizeof(int) * (TEX_HEIGHT * TEX_WIDTH))))
-			return (-1);
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < TEX_HEIGHT * TEX_WIDTH; j++)
-		{
-			info.texture[i][j] = 0;
-		}
-	}
-
+	check_map_name(av[1]);
+	load_file(av[1], &map);
+	init_info(&info, &map);
 	load_texture(&info);
-
-	info.move_speed = 0.1;
-	info.rot_speed = 0.1;
 	info.win = mlx_new_window(info.mlx, WIDTH, HEIGHT, "mlx");
-
 	info.img.img = mlx_new_image(info.mlx, WIDTH, HEIGHT);
 	info.img.data = (int *)mlx_get_data_addr(info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
-
-	cast_floor(&info);
+	//cast_floor(&info);
+	tmp_cast_floor(&info);
 	cast_wall(&info);
 	draw(&info);
 	mlx_hook(info.win, X_EVENT_KEY_PRESS, 0, &press_key, &info);
-
 	mlx_loop(info.mlx);
 }

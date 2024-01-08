@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_check_key.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:48:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/05 13:56:29 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:14:52 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	press_key(int key, t_info *info)
 	if (key == K_ESC)
 		exit(0);
 	mlx_clear_window(info->mlx, info->win);
-	cast_floor(info);
+	//cast_floor(info);
+	tmp_cast_floor(info);
 	cast_wall(info);
 	draw(info);
 	return (0);
@@ -31,20 +32,23 @@ void	press_front_back_key(int key, t_info *info)
 {
 	if (key == K_W)
 	{
-		if (!worldMap[(int)(info->pos.x + info->dir.x * info->move_speed)]
-			[(int)(info->pos.y)])
+		printf("%lf\n", info->pos.x);
+		printf("%lf\n", info->dir.x);
+		printf("%lf\n", info->move_speed);
+		if (info->map->map[(int)(info->pos.x + info->dir.x * info->move_speed)]
+			[(int)(info->pos.y)] != '1')
 			info->pos.x += info->dir.x * info->move_speed;
-		if (!worldMap[(int)(info->pos.x)]
-			[(int)(info->pos.y + info->dir.y * info->move_speed)])
+		if (info->map->map[(int)(info->pos.x)]
+			[(int)(info->pos.y + info->dir.y * info->move_speed)] != '1')
 			info->pos.y += info->dir.y * info->move_speed;
 	}
 	if (key == K_S)
 	{
-		if (!worldMap[(int)(info->pos.x - info->dir.x * info->move_speed)]
-			[(int)(info->pos.y)])
+		if (info->map->map[(int)(info->pos.x - info->dir.x * info->move_speed)]
+			[(int)(info->pos.y)] != '1')
 			info->pos.x -= info->dir.x * info->move_speed;
-		if (!worldMap[(int)(info->pos.x)]
-			[(int)(info->pos.y - info->dir.y * info->move_speed)])
+		if (info->map->map[(int)(info->pos.x)]
+			[(int)(info->pos.y - info->dir.y * info->move_speed)] != '1')
 			info->pos.y -= info->dir.y * info->move_speed;
 	}
 }
@@ -53,20 +57,20 @@ void	press_left_right_key(int key, t_info *info)
 {
 	if (key == K_A)
 	{
-		if (!worldMap[(int)(info->pos.x - info->dir.y * info->move_speed)]
-			[(int)(info->pos.y)])
+		if (info->map->map[(int)(info->pos.x - info->dir.y * info->move_speed)]
+			[(int)(info->pos.y)] != '1')
 			info->pos.x -= info->dir.y * info->move_speed;
-		if (!worldMap[(int)(info->pos.x)]
-			[(int)(info->pos.y + info->dir.x * info->move_speed)])
+		if (info->map->map[(int)(info->pos.x)]
+			[(int)(info->pos.y + info->dir.x * info->move_speed)] != '1')
 			info->pos.y += info->dir.x * info->move_speed;
 	}
 	if (key == K_D)
 	{
-		if (!worldMap[(int)(info->pos.x + info->dir.y * info->move_speed)]
-			[(int)(info->pos.y)])
+		if (info->map->map[(int)(info->pos.x + info->dir.y * info->move_speed)]
+			[(int)(info->pos.y)] != '1')
 			info->pos.x += info->dir.y * info->move_speed;
-		if (!worldMap[(int)(info->pos.x)]
-			[(int)(info->pos.y - info->dir.x * info->move_speed)])
+		if (info->map->map[(int)(info->pos.x)]
+			[(int)(info->pos.y - info->dir.x * info->move_speed)] != '1')
 			info->pos.y -= info->dir.x * info->move_speed;
 	}
 }

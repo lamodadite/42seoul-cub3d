@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_load_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:41:39 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/05 16:11:40 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/08 17:16:39 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ void	load_texture(t_info *info)
 {
 	t_img	img;
 
-	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
-	load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
-	load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
-	load_image(info, info->texture[3], "textures/greystone.xpm", &img);
-	load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
-	load_image(info, info->texture[5], "textures/mossy.xpm", &img);
-	load_image(info, info->texture[6], "textures/wood.xpm", &img);
-	load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
+	load_image(info, info->texture[0], info->map->texture.no_path, &img);
+	load_image(info, info->texture[1], info->map->texture.so_path, &img);
+	load_image(info, info->texture[2], info->map->texture.we_path, &img);
+	load_image(info, info->texture[3], info->map->texture.ea_path, &img);
 }

@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   cu_cast_floor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:04:54 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/05 13:57:13 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/07 22:00:17 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+void	tmp_cast_floor(t_info *info)
+{
+	int	i;
+	int	j;
+	int	ceiling;
+	int	floor;
+
+	i = 0;
+	ceiling = info->ceiling_color;
+	floor = info->floor_color;
+	while (i < HEIGHT / 2)
+	{
+		j = 0;
+		while (j < WIDTH)
+		{
+			info->buf[i][j] = ceiling;
+			info->buf[HEIGHT - i - 1][j] = floor;
+			j++;
+		}
+		i++;
+	}
+}
 
 void	cast_floor(t_info *info)
 {
@@ -28,7 +51,7 @@ void	cast_floor(t_info *info)
 		while (++b < WIDTH)
 		{
 			find_texture_index(&tex, &floor_step, &floor);
-			enter_color_in_buf(info, &tex, a, b);
+			put_color_in_buf(info, &tex, a, b);
 		}
 	}
 }
@@ -66,7 +89,7 @@ void	find_texture_index(t_ipos *tex, t_dpos *floor_step, t_dpos *floor)
 	tex->y = (int)(TEX_HEIGHT * (floor->y - cell.y)) & (TEX_HEIGHT - 1);
 }
 
-void	enter_color_in_buf(t_info *info, t_ipos *tex, int a, int b)
+void	put_color_in_buf(t_info *info, t_ipos *tex, int a, int b)
 {
 	int		ceiling_color;
 	int		floor_color;

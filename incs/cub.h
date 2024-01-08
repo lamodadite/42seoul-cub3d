@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/07 20:00:57 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/08 17:19:37 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # define X_EVENT_KEY_EXIT	17
 # define TEX_WIDTH 64
 # define TEX_HEIGHT 64
-# define MAP_WIDTH 24
-# define MAP_HEIGHT 24
 # define WIDTH 640
 # define HEIGHT 480
 
@@ -40,7 +38,12 @@
 # define F 5
 # define C 6
 
-int	worldMap[MAP_HEIGHT][MAP_WIDTH];
+typedef struct s_rgb
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_rgb;
 
 typedef struct s_ipos
 {
@@ -53,13 +56,6 @@ typedef struct s_dpos
 	double	x;
 	double	y;
 }	t_dpos;
-
-typedef struct s_player
-{
-	t_dpos	pos;
-	t_dpos	dir;
-	t_dpos	plane;
-}	t_player;
 
 typedef struct s_texture
 {
@@ -77,8 +73,9 @@ typedef struct s_map
 	char		**map;
 	int			height;
 	int			width;
+	char		dir;
+	t_ipos		pp;
 	t_texture	texture;
-	t_player	player;
 }	t_map;
 
 typedef struct	s_img
@@ -94,7 +91,10 @@ typedef struct	s_img
 
 typedef struct s_info
 {
-	t_player	*player;
+	t_dpos		pos;
+	t_dpos		dir;
+	t_dpos		plane;
+	t_map		*map;
 	void		*mlx;
 	void		*win;
 	t_img		img;
@@ -103,6 +103,8 @@ typedef struct s_info
 	double		move_speed;
 	double		rot_speed;
 	int			re_buf;
+	int			ceiling_color;
+	int			floor_color;
 }	t_info;
 
 typedef struct s_wall
@@ -135,10 +137,11 @@ void	press_left_rotate_key(int key, t_info *info);
 void	press_right_rotate_key(int key, t_info *info);
 
 /* cu_cast_floor */
+void	tmp_cast_floor(t_info *info);
 void	cast_floor(t_info *info);
 void	set_floor_loop(t_info *info, int a, t_dpos *floor_step, t_dpos *floor);
 void	find_texture_index(t_ipos *tex, t_dpos *floor_step, t_dpos *floor);
-void	enter_color_in_buf(t_info *info, t_ipos *tex, int a, int b);
+void	put_color_in_buf(t_info *info, t_ipos *tex, int a, int b);
 
 
 void	draw(t_info *info);
@@ -146,14 +149,13 @@ void	draw(t_info *info);
 void	cast_wall(t_info *info);
 void	calc_wall_dist(t_info *info, t_wall *wall);
 int		hit_wall(t_info *info, t_wall *wall);
-int		check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall);
+int		check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall, t_info *info);
 void	find_draw_part(t_info *info, t_wall *wall);
 void	put_buf_wall_line(t_info *info, t_wall *wall);
 void	find_floor_pos(t_wall *wall);
 
 /* cu_parse_texture.c */
 void	print_error_and_exit(char *message);
-void	init_map(t_map *map);
 void	check_map_name(char *map_name);
 int		is_map_element(char c);
 int		is_texture_identifier(char *line);
@@ -181,5 +183,10 @@ void	print_texture_struct(t_texture texture);
 void	print_map_struct(t_map *map);
 void	print_2d_arr(char **s, int arr_cnt);
 void	print_2d_arr_d(char **s, int arr_cnt);
+
+/* cu_init.c */
+void	init_map(t_map *map);
+void	init_info(t_info *info, t_map *map);
+void	check_and_set_color(t_info *info, t_map *map, char identifier);
 
 #endif

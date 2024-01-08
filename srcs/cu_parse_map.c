@@ -111,6 +111,10 @@ void	set_map_component(t_map *map, char *line, int height_cnt, int *pos_flag)
 			if (*pos_flag == 1)
 				print_error_and_exit("character must be one\n");
 			*pos_flag = 1;
+			map->pp.x = height_cnt;
+			map->pp.y = width;
+			map->dir = line[width];
+			//printf("height_cnt -> %d, width -> %d\n", height_cnt, width);
 		}
 		//printf("height_cnt -> %d, width -> %d, line[width] -> %c, %d\n", height_cnt, width, line[width], line[width]);
 		map->map[height_cnt][width] = line[width];
@@ -137,25 +141,24 @@ void	set_map_elements(t_map *map, char *map_path)
 	{
 		if (line == NULL)
 			break ;
-		else if (height_cnt == map->height)
-			print_error_and_exit("invalid map element3\n");
 		set_map_component(map, line, height_cnt, &pos_flag);
-		free (line);
+		free(line);
 		line = get_next_line(fd);
 		height_cnt++;
 	}
+	print_map_struct(map);
 	close(fd);
 }
 
 void	check_map_is_surrouned(t_map *map, int h, int w)
 {
-	if (h - 1 >= 0 && (map->map[h - 1][w] != ' ' && map->map[h - 1][w] != '1'))
+	if (w - 1 >= 0 && (map->map[h][w - 1] != ' ' && map->map[h][w - 1] != '1'))
 		print_error_and_exit("map must be closed by wall3\n");
-	if (h + 1 < map->height && map->map[h + 1][w] != ' ' && map->map[h + 1][w] != '1')
-		print_error_and_exit("map must be closed by wall4\n");
 	if (w + 1 < map->width && map->map[h][w + 1] != ' ' && map->map[h][w + 1] != '1')
+		print_error_and_exit("map must be closed by wall4\n");
+	if (h + 1 < map->height && map->map[h + 1][w] != ' ' && map->map[h + 1][w] != '1')
 		print_error_and_exit("map must be closed by wall5\n");
-	if (w - 1 >= 0 && map->map[h][w - 1] != ' ' && map->map[h][w - 1] != '1')
+	if (h - 1 >= 0 && map->map[h - 1][w] != ' ' && map->map[h - 1][w] != '1')
 		print_error_and_exit("map must be closed by wall6\n");
 }
 

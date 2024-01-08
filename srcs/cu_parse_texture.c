@@ -8,20 +8,6 @@ void	print_error_and_exit(char *message)
 	exit(1);
 }
 
-void	init_map(t_map *map)
-{
-	map->map = NULL;
-	map->height = 0;
-	map->width = 0;
-	map->texture.cnt = 0;
-	map->texture.ea_path = NULL;
-	map->texture.no_path = NULL;
-	map->texture.so_path = NULL;
-	map->texture.we_path = NULL;
-	map->texture.f_color[0] = -1;
-	map->texture.c_color[0] = -1;
-}
-
 void	check_map_name(char *map_name)
 {
 	int	len;
@@ -118,15 +104,11 @@ void	is_valid_path(int identifier, char *path, t_map *map)
 	{
 		is_duplicated_path(identifier, path, map);
 		if (path[ft_strlen(path) - 1] == '\n')
-			path = ft_substr(path, 0, ft_strlen(path) - 1);
+			path[ft_strlen(path) - 1] = '\0';
 		fd = open(path, O_RDONLY);
 		if (fd < 0)
-		{
-			printf("%s\n", path);
 			print_error_and_exit("file open error\n");
-		}
 		close(fd);
-		free(path);
 	}
 }
 
@@ -185,6 +167,18 @@ void	set_texture_path(t_map *map, char *line)
 	map->texture.cnt++;
 }
 
+void	trim_textures(t_texture *texture)
+{
+	if (texture->no_path[ft_strlen(texture->no_path) - 1] == '\n')
+		texture->no_path[ft_strlen(texture->no_path) - 1] = '\0';
+	if (texture->so_path[ft_strlen(texture->so_path) - 1] == '\n')
+		texture->so_path[ft_strlen(texture->so_path) - 1] = '\0';
+	if (texture->we_path[ft_strlen(texture->we_path) - 1] == '\n')
+		texture->we_path[ft_strlen(texture->we_path) - 1] = '\0';
+	if (texture->ea_path[ft_strlen(texture->ea_path) - 1] == '\n')
+		texture->ea_path[ft_strlen(texture->ea_path) - 1] = '\0';
+}
+
 void	get_texture(t_map *map, int fd)
 {
 	char	*line;
@@ -204,6 +198,7 @@ void	get_texture(t_map *map, int fd)
 	}
 	if (map->texture.cnt != 6)
 		print_error_and_exit("check texture element\n");
+	trim_textures(&map->texture);
 }
 
 void	load_file(char *map_path, t_map *map)
