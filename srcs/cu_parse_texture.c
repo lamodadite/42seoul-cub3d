@@ -183,10 +183,12 @@ void	get_texture(t_map *map, int fd)
 {
 	char	*line;
 
-	while (map->texture.cnt < 6)
+	while (42)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
+			break ;
+		if (is_map_element_arr(line) == 1)
 			break ;
 		else if (ft_strncmp(line, "\n", 2) == 0)
 			continue ;
@@ -197,7 +199,7 @@ void	get_texture(t_map *map, int fd)
 		free(line);
 	}
 	if (map->texture.cnt != 6)
-		print_error_and_exit("check texture element\n");
+		print_error_and_exit("number of texture is wrong\n");
 	trim_textures(&map->texture);
 }
 
@@ -210,6 +212,6 @@ void	load_file(char *map_path, t_map *map)
 		print_error_and_exit("file open error\n");
 	init_map(map);
 	get_texture(map, fd);
-	get_map(map, fd, map_path);
+	get_map(map, map_path);
 	close(fd);
 }

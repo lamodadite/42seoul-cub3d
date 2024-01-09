@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/08 10:27:21 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:40:41 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ void	draw(t_info *info)
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
+int	rendering(t_info *info)
+{
+	cast_floor(info);
+	cast_wall(info);
+	draw(info);
+	draw_door();
+	return (1);
+}
+
 int	main(int ac, char **av)
 {
 	t_map	map;
@@ -43,13 +52,8 @@ int	main(int ac, char **av)
 	load_file(av[1], &map);
 	init_info(&info, &map);
 	load_texture(&info);
-	info.win = mlx_new_window(info.mlx, WIDTH, HEIGHT, "mlx");
-	info.img.img = mlx_new_image(info.mlx, WIDTH, HEIGHT);
-	info.img.data = (int *)mlx_get_data_addr(info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
-	//cast_floor(&info);
-	tmp_cast_floor(&info);
-	cast_wall(&info);
-	draw(&info);
+	init_mlx_window_img(&info);
 	mlx_hook(info.win, X_EVENT_KEY_PRESS, 0, &press_key, &info);
+	mlx_loop_hook(info.mlx, &rendering, &info);
 	mlx_loop(info.mlx);
 }

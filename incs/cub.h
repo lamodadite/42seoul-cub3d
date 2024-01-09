@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/08 17:19:37 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:03:42 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_info
 	void		*win;
 	t_img		img;
 	int			buf[HEIGHT][WIDTH];
-	int			**texture;
+	int			texture[5][TEX_HEIGHT * TEX_WIDTH];
 	double		move_speed;
 	double		rot_speed;
 	int			re_buf;
@@ -125,6 +125,10 @@ typedef struct s_wall
 	int		b;
 }	t_wall;
 
+/* cub3d.c */
+int		rendering(t_info *info);
+void	draw(t_info *info);
+
 /* cu_load_data */
 void	load_image(t_info *info, int *texture, char *path, t_img *img);
 void	load_texture(t_info *info);
@@ -137,15 +141,9 @@ void	press_left_rotate_key(int key, t_info *info);
 void	press_right_rotate_key(int key, t_info *info);
 
 /* cu_cast_floor */
-void	tmp_cast_floor(t_info *info);
 void	cast_floor(t_info *info);
-void	set_floor_loop(t_info *info, int a, t_dpos *floor_step, t_dpos *floor);
-void	find_texture_index(t_ipos *tex, t_dpos *floor_step, t_dpos *floor);
-void	put_color_in_buf(t_info *info, t_ipos *tex, int a, int b);
 
-
-void	draw(t_info *info);
-
+/* cast_wall.c */
 void	cast_wall(t_info *info);
 void	calc_wall_dist(t_info *info, t_wall *wall);
 int		hit_wall(t_info *info, t_wall *wall);
@@ -165,9 +163,10 @@ void	is_valid_path(int identifier, char *path, t_map *map);
 void	set_texture_path(t_map *map, char *line);
 void	get_texture(t_map *map, int fd);
 void	load_file(char *map_path, t_map *map);
+int		is_map_element_arr(char *line);
 
 /* cu_parse_map.c */
-void	get_map(t_map *map, int fd, char *map_path);
+void	get_map(t_map *map, char *map_path);
 void	set_map_width_height(t_map *map, int fd);
 char	*move_to_map_element(int fd);
 void	set_map_width(t_map *map, char *line);
@@ -188,5 +187,6 @@ void	print_2d_arr_d(char **s, int arr_cnt);
 void	init_map(t_map *map);
 void	init_info(t_info *info, t_map *map);
 void	check_and_set_color(t_info *info, t_map *map, char identifier);
+void	init_mlx_window_img(t_info *info);
 
 #endif

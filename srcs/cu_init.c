@@ -1,5 +1,13 @@
 #include "cub.h"
 
+void	init_mlx_window_img(t_info *info)
+{
+	info->win = mlx_new_window(info->mlx, WIDTH, HEIGHT, "mlx");
+	info->img.img = mlx_new_image(info->mlx, WIDTH, HEIGHT);
+	info->img.data = (int *)mlx_get_data_addr(info->img.img, &info->img.bpp,
+		&info->img.size_l, &info->img.endian);
+}
+
 void	init_map(t_map *map)
 {
 	map->map = NULL;
@@ -21,22 +29,22 @@ void	init_dir(t_info *info, t_map *map)
 	if (map->dir == 'N')
 	{
 		info->dir.x = -1.0;
-		info->dir.y = 0.0;
+		info->plane.y = 0.66;
 	}
 	if (map->dir == 'S')
 	{
 		info->dir.x = 1.0;
-		info->dir.y = 0.0;
+		info->plane.y = -0.66;
 	}
 	if (map->dir == 'E')
 	{
-		info->dir.x = 0.0;
-		info->dir.y = -1.0;
+		info->dir.y = 1.0;
+		info->plane.x = 0.66;
 	}
 	if (map->dir == 'W')
 	{
-		info->dir.x = 0.0;
-		info->dir.y = 1.0;
+		info->dir.y = -1.0;
+		info->plane.x = -0.66;
 	}
 }
 
@@ -44,23 +52,21 @@ void	init_info(t_info *info, t_map *map)
 {
 	int	i;
 
-	info->pos.x = map->pp.x + 0.01;
+	info->pos.x = map->pp.x + 0.51;
 	info->pos.y = map->pp.y + 0.51;
-	init_dir(info, map);
+	info->dir.x = 0;
+	info->dir.y = 0;
 	info->plane.x = 0.0;
-	info->plane.y = 0.66;
+	info->plane.y = 0.0;
+	init_dir(info, map);
 	info->re_buf = 0;
 	info->map = map;
-	info->move_speed = 0.1;
-	info->rot_speed = 0.1;
+	info->move_speed = 0.035;
+	info->rot_speed = 0.035;
 	info->mlx = mlx_init();
 	i = 0;
 	while (i < HEIGHT)
 		ft_bzero(info->buf[i++], WIDTH);
-	info->texture = (int **)ft_calloc(sizeof(int *), 4);
-	i = 0;
-	while (i < 4)
-		info->texture[i++] = (int *)ft_calloc(sizeof(int), (TEX_HEIGHT * TEX_WIDTH));
 	check_and_set_color(info, map, 'F');
 	check_and_set_color(info, map, 'C');
 }

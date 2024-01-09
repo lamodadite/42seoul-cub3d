@@ -43,9 +43,9 @@ char	*move_to_map_element(int fd)
 	line = get_next_line(fd);
 	while (1)
 	{
-		//printf("%s\n", line);
 		if (line == NULL)
 			return (line);
+		//printf("in move_to_map_element -> %s\n", line);
 		if (is_map_element_arr(line) == 1)
 			break ;
 		free(line);
@@ -59,7 +59,7 @@ void	set_map_width_height(t_map *map, int fd)
 	char	*line;
 
 	line = move_to_map_element(fd);
-	//printf("%s\n", line);
+	//printf("first move to map -> %s\n", line);
 	while (1)
 	{
 		if (line == NULL)
@@ -70,6 +70,7 @@ void	set_map_width_height(t_map *map, int fd)
 			print_error_and_exit("invalid map element2\n");
 		else
 		{
+			//printf("%s\n", line);
 			map->height++;
 			set_map_width(map, line);
 		}
@@ -134,11 +135,12 @@ void	set_map_elements(t_map *map, char *map_path)
 	if (fd < 0)
 		print_error_and_exit("file open error\n");
 	line = move_to_map_element(fd);
-	//printf("%s\n", line);
+	//printf("second move to map -> %s\n", line);
 	pre_set_map(map);
 	height_cnt = 0;
 	while (1)
 	{
+		//printf("%s\n", line);
 		if (line == NULL)
 			break ;
 		set_map_component(map, line, height_cnt, &pos_flag);
@@ -146,7 +148,6 @@ void	set_map_elements(t_map *map, char *map_path)
 		line = get_next_line(fd);
 		height_cnt++;
 	}
-	print_map_struct(map);
 	close(fd);
 }
 
@@ -186,9 +187,15 @@ void	check_map_is_valid(t_map *map)
 	}
 }
 
-void	get_map(t_map *map, int fd, char *map_path)
+void	get_map(t_map *map, char *map_path)
 {
+	int	fd;
+
+	fd = open(map_path, O_RDONLY);
+	if (fd < 0)
+		print_error_and_exit("file open error\n");
 	set_map_width_height(map, fd);
+	//print_map_struct(map);
 	set_map_elements(map, map_path);
 	check_map_is_valid(map);
 }

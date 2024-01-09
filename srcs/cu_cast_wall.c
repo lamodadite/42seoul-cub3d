@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:16:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/08 18:20:01 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:26:22 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,9 +160,9 @@ void	put_buf_wall_line(t_info *info, t_wall *wall)
 		else if (wall->side == 1)
 		{
 			if (wall->ray_dir.y >= 0)
-				color = info->texture[2][TEX_HEIGHT * wall->tex.y + wall->tex.x];
-			else
 				color = info->texture[3][TEX_HEIGHT * wall->tex.y + wall->tex.x];
+			else
+				color = info->texture[2][TEX_HEIGHT * wall->tex.y + wall->tex.x];
 		}
 		info->buf[wall->a][wall->b] = color;
 		tex_pos += delta_step;

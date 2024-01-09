@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:48:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/08 18:14:52 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:45:49 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int	press_key(int key, t_info *info)
 	if (key == K_ESC)
 		exit(0);
 	mlx_clear_window(info->mlx, info->win);
-	//cast_floor(info);
-	tmp_cast_floor(info);
-	cast_wall(info);
-	draw(info);
+	rendering(info);
 	return (0);
 }
 
@@ -32,9 +29,6 @@ void	press_front_back_key(int key, t_info *info)
 {
 	if (key == K_W)
 	{
-		printf("%lf\n", info->pos.x);
-		printf("%lf\n", info->dir.x);
-		printf("%lf\n", info->move_speed);
 		if (info->map->map[(int)(info->pos.x + info->dir.x * info->move_speed)]
 			[(int)(info->pos.y)] != '1')
 			info->pos.x += info->dir.x * info->move_speed;
