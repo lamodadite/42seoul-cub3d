@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 10:37:49 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 11:50:08 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,21 +149,23 @@ void	calc_wall_dist(t_info *info, t_wall *wall);
 int		hit_wall(t_info *info, t_wall *wall);
 int		check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall, t_info *info);
 void	find_draw_part(t_info *info, t_wall *wall);
+int		get_wall_color(t_info *info, t_wall *wall);
 void	put_buf_wall_line(t_info *info, t_wall *wall);
 void	find_floor_pos(t_wall *wall);
 
 /* cu_parse_texture.c */
-void	print_error_and_exit(char *message);
 void	check_map_name(char *map_name);
 int		is_map_element(char c);
 int		is_texture_identifier(char *line);
 int		is_texture_element(char *line);
 void	is_duplicated_path(int identifier, char *path, t_map *map);
 void	is_valid_path(int identifier, char *path, t_map *map);
+void	check_color_is_valid(t_map *map, char *line, char identifier);
 void	set_texture_path(t_map *map, char *line);
 void	get_texture(t_map *map, int fd);
 void	load_file(char *map_path, t_map *map);
 int		is_map_element_arr(char *line);
+void	trim_textures(t_texture *texture);
 
 /* cu_parse_map.c */
 void	get_map(t_map *map, char *map_path);
@@ -174,6 +176,7 @@ void	check_map_is_surrouned(t_map *map, int h, int w);
 void	check_map_is_valid(t_map *map);
 
 /* cu_utils.c */
+void	print_error_and_exit(char *message);
 void	free_2d_array(char **arr);
 int		get_str_2d_len(char **s);
 

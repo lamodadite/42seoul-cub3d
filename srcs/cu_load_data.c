@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:41:39 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/08 17:16:39 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 11:50:46 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ void	load_texture(t_info *info)
 	load_image(info, info->texture[1], info->map->texture.so_path, &img);
 	load_image(info, info->texture[2], info->map->texture.we_path, &img);
 	load_image(info, info->texture[3], info->map->texture.ea_path, &img);
+	// TODO:door 이미지 추가해야함
 }

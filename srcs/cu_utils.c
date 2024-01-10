@@ -1,5 +1,13 @@
 #include "cub.h"
 
+void	print_error_and_exit(char *message)
+{
+	write(2, "\033[0;35mError\n", ft_strlen("\033[0;35mError\n"));
+	write(2, message, ft_strlen(message));
+	write(2, "\033[0;0m", ft_strlen("\033[0;0m"));
+	exit(1);
+}
+
 void	free_2d_array(char **arr)
 {
 	int	i;

@@ -1,13 +1,5 @@
 #include "cub.h"
 
-void	print_error_and_exit(char *message)
-{
-	write(2, "\033[0;35mError\n", ft_strlen("\033[0;35mError\n"));
-	write(2, message, ft_strlen(message));
-	write(2, "\033[0;0m", ft_strlen("\033[0;0m"));
-	exit(1);
-}
-
 void	check_map_name(char *map_name)
 {
 	int	len;

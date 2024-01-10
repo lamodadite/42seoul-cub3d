@@ -104,7 +104,7 @@ void	set_map_component(t_map *map, char *line, int height_cnt, int *pos_flag)
 	width = 0;
 	while (line[width] != '\0' && line[width] != '\n')
 	{
-		if (line[width] != ' ' && line[width] != '0' && line[width] != '1')
+		if (line[width] != ' ' && line[width] != '0' && line[width] != '1' && line[width] != 'D')
 		{
 			if (*pos_flag == 1)
 				print_error_and_exit("player position must be one\n");
@@ -156,6 +156,14 @@ void	check_map_is_surrouned(t_map *map, int h, int w)
 		print_error_and_exit("map must be closed by wall\n");
 }
 
+void	check_door_is_surrounded(t_map *map, int x, int y)
+{
+	if ((map->map[x - 1][y] == '1' && map->map[x + 1][y] == '1') ||
+		(map->map[x][y - 1] == '1' && map->map[x][y + 1] == '1'))
+		return ;
+	print_error_and_exit("door must be surrounded by wall\n");
+}
+
 void	check_map_is_valid(t_map *map)
 {
 	int	x;
@@ -175,6 +183,8 @@ void	check_map_is_valid(t_map *map)
 				print_error_and_exit("map must be closed by wall\n");
 			if (map->map[x][y] == ' ')
 				check_map_is_surrouned(map, x, y);
+			if (map->map[x][y] == 'D')
+				check_door_is_surrounded(map, x, y);
 		}
 	}
 }

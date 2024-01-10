@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:16:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/09 11:26:22 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:54:58 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,6 @@
 void	cast_wall(t_info *info)
 {
 	t_wall	wall;
-	//double	dist_wall;
-	//double	dist_player;
-	//double	current_dist;
-	//double	weight;
-	//t_dpos	current_floor;
-	//t_ipos	floor_tex;
-	//int		checker_board_pattern;
-	//int		floor_texture;
 
 	wall.a = -1;
 	wall.b = -1;
@@ -32,25 +24,6 @@ void	cast_wall(t_info *info)
 		find_draw_part(info, &wall);
 		put_buf_wall_line(info, &wall);
 		find_floor_pos(&wall);
-		//dist_wall = wall.perp_wall_dist;
-		//dist_player = 0.0;
-		//wall.a = wall.draw_end;
-		//while (++wall.a < HEIGHT)
-		//{
-		//	current_dist = HEIGHT / (2.0 * wall.a - HEIGHT);
-		//	weight = (current_dist - dist_player) / (dist_wall - dist_player);
-		//	current_floor.x = weight * wall.floor.x + (1.0 - weight) * info->pos.x;
-		//	current_floor.y = weight * wall.floor.y + (1.0 - weight) * info->pos.y;
-		//	floor_tex.x = (int)(current_floor.x * TEX_WIDTH) % TEX_WIDTH;
-		//	floor_tex.y = (int)(current_floor.y * TEX_HEIGHT) % TEX_HEIGHT;
-		//	checker_board_pattern = ((int)(current_floor.x) + (int)(current_floor.y)) % 2;
-		//	if (checker_board_pattern == 0)
-		//		floor_texture = 3;
-		//	else
-		//		floor_texture = 4;
-		//	info->buf[wall.a][wall.b] = (info->texture[floor_texture][TEX_WIDTH * floor_tex.y + floor_tex.x] >> 1) & 8355711;
-		//	info->buf[HEIGHT - wall.a][wall.b] = info->texture[6][TEX_WIDTH * floor_tex.y + floor_tex.x];
-		//}
 	}
 }
 
@@ -110,7 +83,6 @@ int	check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall, t_info *
 			wall->map.y += wall->step.y;
 			side = 1;
 		}
-		//printf("map.x -> %d, map.y -> %d\n", wall->map.x, wall->map.y);
 		if (info->map->map[wall->map.x][wall->map.y] == '1')
 			return (side);
 	}
@@ -132,11 +104,32 @@ void	find_draw_part(t_info *info, t_wall *wall)
 	wall->ratio -= floor(wall->ratio);
 }
 
+int	get_wall_color(t_info *info, t_wall *wall)
+{
+	int	color;
+
+	color = 0;
+	if (wall->side == 0)
+	{
+		if (wall->ray_dir.x >= 0)
+			color = info->texture[0][TEX_HEIGHT * wall->tex.y + wall->tex.x];
+		else
+			color = info->texture[1][TEX_HEIGHT * wall->tex.y + wall->tex.x];
+	}
+	else if (wall->side == 1)
+	{
+		if (wall->ray_dir.y >= 0)
+			color = info->texture[3][TEX_HEIGHT * wall->tex.y + wall->tex.x];
+		else
+			color = info->texture[2][TEX_HEIGHT * wall->tex.y + wall->tex.x];
+	}
+	return (color);
+}
+
 void	put_buf_wall_line(t_info *info, t_wall *wall)
 {
 	double	delta_step;
 	double	tex_pos;
-	int		color;
 
 	wall->tex.x = (int)(wall->ratio * (double) TEX_WIDTH);
 	if (wall->side == 0 && wall->ray_dir.x > 0)
@@ -150,21 +143,7 @@ void	put_buf_wall_line(t_info *info, t_wall *wall)
 	while (++wall->a < wall->draw_end)
 	{
 		wall->tex.y = (int) tex_pos & (TEX_HEIGHT - 1);
-		if (wall->side == 0)
-		{
-			if (wall->ray_dir.x >= 0)
-				color = info->texture[0][TEX_HEIGHT * wall->tex.y + wall->tex.x];
-			else
-				color = info->texture[1][TEX_HEIGHT * wall->tex.y + wall->tex.x];
-		}
-		else if (wall->side == 1)
-		{
-			if (wall->ray_dir.y >= 0)
-				color = info->texture[3][TEX_HEIGHT * wall->tex.y + wall->tex.x];
-			else
-				color = info->texture[2][TEX_HEIGHT * wall->tex.y + wall->tex.x];
-		}
-		info->buf[wall->a][wall->b] = color;
+		info->buf[wall->a][wall->b] = get_wall_color(info, wall);;
 		tex_pos += delta_step;
 	}
 }
