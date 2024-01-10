@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 11:50:08 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:06:31 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define TEX_HEIGHT 64
 # define WIDTH 640
 # define HEIGHT 480
+# define MINIMAP_SCALE 0.4
 
 # define MAP_PATH "map/"
 # define NO 1
@@ -191,5 +192,8 @@ void	init_map(t_map *map);
 void	init_info(t_info *info, t_map *map);
 void	check_and_set_color(t_info *info, t_map *map, char identifier);
 void	init_mlx_window_img(t_info *info);
+
+/* cu_draw_minimap.c */
+void	draw_minimap(t_info *info);
 
 #endif

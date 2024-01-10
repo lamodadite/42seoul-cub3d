@@ -187,6 +187,8 @@ void	check_map_is_valid(t_map *map)
 				check_door_is_surrounded(map, x, y);
 		}
 	}
+	if (map->dir == 0)
+		print_error_and_exit("no character\n");
 }
 
 void	get_map(t_map *map, char *map_path)

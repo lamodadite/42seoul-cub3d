@@ -15,6 +15,7 @@ void	init_map(t_map *map)
 	map->width = 0;
 	map->pp.x = 0;
 	map->pp.y = 0;
+	map->dir = 0;
 	map->texture.cnt = 0;
 	map->texture.ea_path = NULL;
 	map->texture.no_path = NULL;
