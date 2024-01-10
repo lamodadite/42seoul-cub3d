@@ -1,7 +1,8 @@
 NAME = cub3D
 SRC_DIR = srcs
 SRCS = cu_parse_texture.c cu_parse_map.c cu_utils.c cu_debug.c \
-cu_init.c cub3d.c cu_load_data.c cu_check_key.c cu_cast_floor.c cu_cast_wall.c
+cu_init.c cub3d.c cu_load_data.c cu_check_key.c cu_cast_floor.c cu_cast_wall.c \
+cu_cast_door.c
 INCS = cub.h keys.h
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

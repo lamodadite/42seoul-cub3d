@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_cast_wall.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:16:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 10:54:58 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 16:38:29 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	cast_wall(t_info *info)
 		calc_wall_dist(info, &wall);
 		find_draw_part(info, &wall);
 		put_buf_wall_line(info, &wall);
-		find_floor_pos(&wall);
 	}
 }
 
@@ -143,31 +142,7 @@ void	put_buf_wall_line(t_info *info, t_wall *wall)
 	while (++wall->a < wall->draw_end)
 	{
 		wall->tex.y = (int) tex_pos & (TEX_HEIGHT - 1);
-		info->buf[wall->a][wall->b] = get_wall_color(info, wall);;
+		info->buf[wall->a][wall->b] = get_wall_color(info, wall);
 		tex_pos += delta_step;
-	}
-}
-
-void	find_floor_pos(t_wall *wall)
-{
-	if (wall->side == 0 && wall->ray_dir.x > 0)
-	{
-		wall->floor.x = wall->map.x;
-		wall->floor.y = wall->map.y + wall->ratio;
-	}
-	else if (wall->side == 0 && wall->ray_dir.x < 0)
-	{
-		wall->floor.x = wall->map.x + 1.0;
-		wall->floor.y = wall->map.y + wall->ratio;
-	}
-	else if (wall->side == 1 && wall->ray_dir.y > 0)
-	{
-		wall->floor.x = wall->map.x + wall->ratio;
-		wall->floor.y = wall->map.y;
-	}
-	else
-	{
-		wall->floor.x = wall->map.x + wall->ratio;
-		wall->floor.y = wall->map.y + 1.0;
 	}
 }

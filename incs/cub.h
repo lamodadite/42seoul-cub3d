@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 15:06:31 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 16:45:50 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ typedef struct s_wall
 	int		draw_end;
 	int		tex_num;
 	double	ratio;
-	t_dpos	floor;
 	t_ipos	tex;
 	int		a;
 	int		b;
@@ -195,5 +194,8 @@ void	init_mlx_window_img(t_info *info);
 
 /* cu_draw_minimap.c */
 void	draw_minimap(t_info *info);
+
+/* cu_cast_door.c */
+void	cast_door(t_info *info);
 
 #endif

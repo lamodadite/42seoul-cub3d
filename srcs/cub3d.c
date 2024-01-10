@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/10 15:58:43 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 16:44:36 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	rendering(t_info *info)
 {
 	cast_floor(info);
 	cast_wall(info);
+	cast_door(info);
 	//draw_minimap(info);
 	draw(info);
 	return (1);
