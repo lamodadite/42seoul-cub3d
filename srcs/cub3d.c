@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/09 21:40:41 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:22:47 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	rendering(t_info *info)
 	cast_floor(info);
 	cast_wall(info);
 	draw(info);
-	draw_door();
 	return (1);
 }
 

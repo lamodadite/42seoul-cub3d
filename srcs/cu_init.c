@@ -61,8 +61,8 @@ void	init_info(t_info *info, t_map *map)
 	init_dir(info, map);
 	info->re_buf = 0;
 	info->map = map;
-	info->move_speed = 0.035;
-	info->rot_speed = 0.035;
+	info->move_speed = 0.075;
+	info->rot_speed = 0.075;
 	info->mlx = mlx_init();
 	i = 0;
 	while (i < HEIGHT)

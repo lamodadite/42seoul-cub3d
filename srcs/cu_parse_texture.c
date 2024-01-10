@@ -26,7 +26,7 @@ int	is_map_element(char c)
 
 	result = 0;
 	if (c == ' ' || c == '1' || c == '0' || c == 'N'
-		|| c == 'S' || c == 'E' || c == 'W')
+		|| c == 'S' || c == 'E' || c == 'W' || c == 'D')
 		result = 1;
 	return (result);
 }
@@ -76,22 +76,22 @@ void	is_duplicated_path(int identifier, char *path, t_map *map)
 	if (i++ != identifier)
 	{
 		if (map->texture.no_path != NULL && ft_strncmp(path, map->texture.no_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated path error\n");
+			print_error_and_exit("duplicated no_path error\n");
 	}
 	if (i++ != identifier)
 	{
 		if (map->texture.so_path != NULL && ft_strncmp(path, map->texture.so_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated path error\n");
+			print_error_and_exit("duplicated so_path error\n");
 	}
 	if (i++ != identifier)
 	{
 		if (map->texture.we_path != NULL && ft_strncmp(path, map->texture.we_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated path error\n");
+			print_error_and_exit("duplicated we_path error\n");
 	}
 	if (i != identifier)
 	{
 		if (map->texture.ea_path != NULL && ft_strncmp(path, map->texture.ea_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated path error\n");
+			print_error_and_exit("duplicated ea_path error\n");
 	}
 }
 
@@ -122,17 +122,17 @@ void	check_color_is_valid(t_map *map, char *line, char identifier)
 		line[ft_strlen(line) - 1] = '\0';
 	splited_line = ft_split(line, ',');
 	if (get_str_2d_len(splited_line) != 3)
-		print_error_and_exit("invalid color1\n");
+		print_error_and_exit("invalid color\n");
 	i = -1;
 	while (++i < 3)
 	{
 		if (ft_strlen(splited_line[i]) > 3)
-			print_error_and_exit("invalid color2\n");
+			print_error_and_exit("color value is over 255\n");
 		j = -1;
 		while (++j < (int)ft_strlen(splited_line[i]))
 		{
 			if (ft_isdigit(splited_line[i][j]) == 0)
-				print_error_and_exit("invalid color3\n");
+				print_error_and_exit("color value isn't numeric\n");
 		}
 		if (identifier == 'F')
 			map->texture.f_color[i] = ft_atoi(splited_line[i]);
@@ -161,7 +161,7 @@ void	set_texture_path(t_map *map, char *line)
 	else if (identifier == C && map->texture.c_color[0] == -1)
 		check_color_is_valid(map, splited_line[1], 'C');
 	else
-		print_error_and_exit("identifier is duplicated1\n");
+		print_error_and_exit("identifier is duplicated\n");
 	is_valid_path(identifier, splited_line[1], map);
 	free_2d_array(splited_line);
 	map->texture.cnt++;
