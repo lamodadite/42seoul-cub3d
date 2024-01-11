@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 15:06:31 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:31:26 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # define TEX_HEIGHT 64
 # define WIDTH 640
 # define HEIGHT 480
-# define MINIMAP_SCALE 0.4
-
+# define MINIMAP_SCALE 0.3
+# define MINIMAP_UNIT 12
 # define MAP_PATH "map/"
 # define NO 1
 # define SO 2
@@ -96,6 +96,7 @@ typedef struct s_info
 	t_dpos		dir;
 	t_dpos		plane;
 	t_map		*map;
+	char		minimap[MINIMAP_UNIT][MINIMAP_UNIT];
 	void		*mlx;
 	void		*win;
 	t_img		img;
@@ -195,5 +196,7 @@ void	init_mlx_window_img(t_info *info);
 
 /* cu_draw_minimap.c */
 void	draw_minimap(t_info *info);
+int		get_map_idx(int n, int len);
+void	set_minimap(t_info *info);
 
 #endif
