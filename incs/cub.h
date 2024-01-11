@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 16:45:50 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:19:28 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ typedef struct	s_img
 	int		img_height;
 }	t_img;
 
+typedef struct s_door
+{
+	t_ipos			map;
+	int				open;
+	int				flag;
+	double			dist;
+	struct s_door	*next;
+}	t_door;
+
 typedef struct s_info
 {
 	t_dpos		pos;
@@ -106,6 +115,7 @@ typedef struct s_info
 	int			re_buf;
 	int			ceiling_color;
 	int			floor_color;
+	t_door		*head;
 }	t_info;
 
 typedef struct s_wall
@@ -197,5 +207,9 @@ void	draw_minimap(t_info *info);
 
 /* cu_cast_door.c */
 void	cast_door(t_info *info);
+
+/* cu_make_door.c */
+t_door	*make_door_list(t_map *map);
+
 
 #endif

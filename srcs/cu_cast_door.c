@@ -6,33 +6,154 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:25:25 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/10 17:40:40 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:21:55 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static void	calc_door_dist(t_info *info, t_wall *door);
-static int	hit_door(t_info *info, t_wall *door);
-static int	check_hit_door(t_dpos *side_dist, t_dpos *delta_dist, t_wall *door, t_info *info);
-static void	find_door_part(t_info *info, t_wall *door);
-static void	put_buf_door_line(t_info *info, t_wall *door);
+static void		calc_door_dist(t_info *info, t_wall *door);
+static void		open_door(t_wall *door, t_door *cur);
+static void		close_door(t_info *info);
+static int		hit_door(t_info *info, t_wall *door);
+static int		check_hit_door(t_dpos *side_dist, t_dpos *delta_dist, t_wall *door, t_info *info);
+static void		find_door_part(t_info *info, t_wall *door);
+static void		put_buf_door_line(t_info *info, t_wall *door, t_door *cur);
+static int		check_door_order(t_info *info);
+static double	*sort_door_arr(t_info *info, int door_num);
+static t_door	*find_i_door(t_info *info, double dist);
 
 void	cast_door(t_info *info)
 {
-	t_wall	door;
+	t_wall		door;
+	t_door		*cur;
+	int			i;
+	int			door_num;
+	double		*arr;
 
 	door.a = -1;
-	door.b = -1;
-	while (++door.b < WIDTH)
+	door_num = check_door_order(info);
+	arr = sort_door_arr(info, door_num);
+	i = -1;
+	while (++i < door_num)
 	{
-		calc_door_dist(info, &door);
-		find_draw_part(info, &door);
-		put_buf_door_line(info, &door);
+		cur = find_i_door(info, arr[i]);
+		printf("%d %d\n", cur->map.x, cur->map.y);
+		info->map->map[cur->map.x][cur->map.y] = 'D';
+		door.b = -1;
+		while (++door.b < WIDTH)
+		{
+			calc_door_dist(info, &door);
+			if (info->map->map[door.map.x][door.map.y] == 'D')
+				open_door(&door, cur);
+			else
+				continue ;
+			find_door_part(info, &door);
+			put_buf_door_line(info, &door, cur);
+		}
+		info->map->map[cur->map.x][cur->map.y] = '0';
+	}
+	free(arr);
+	close_door(info);
+}
+
+static double	*sort_door_arr(t_info *info, int door_num)
+{
+	double	*arr;
+	double	tmp;
+	t_door	*cur;
+	int		i;
+	int		j;
+
+	arr = (double *)ft_calloc(door_num, sizeof(double *));
+	cur = info->head;
+	i = 0;
+	while (i < door_num)
+	{
+		arr[i++] = cur->dist;
+		cur = cur->next;
+	}
+	i = -1;
+	while (++i < door_num)
+	{
+		j = -1;
+		while (++j < door_num - 1)
+		{
+			if (arr[j] < arr[j + 1])
+			{
+				tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+		}
+	}
+	return (arr);
+}
+
+static t_door	*find_i_door(t_info *info, double dist)
+{
+	t_door	*cur;
+
+	cur = info->head;
+	while (cur != NULL)
+	{
+		if (cur->dist == dist)
+			return (cur);
+		cur = cur->next;
+	}
+	return (NULL);
+}
+
+static int	check_door_order(t_info *info)
+{
+	t_door	*cur;
+	int		i;
+
+	cur = info->head;
+	i = 0;
+	while (cur != NULL)
+	{
+		cur->dist = pow(info->pos.x - cur->map.x, 2)
+			+ pow(info->pos.y - cur->map.y, 2);
+		cur = cur->next;
+		i++;
+	}
+	return (i);
+}
+
+static void	open_door(t_wall *door, t_door *cur)
+{
+	if (cur->flag == 0)
+	{
+		if (door->perp_wall_dist <= 2
+			&& cur->open < 800 / door->perp_wall_dist)
+			cur->open += 25 / door->perp_wall_dist;
+		if (door->perp_wall_dist <= 2
+			&& cur->open >= 800 / door->perp_wall_dist)
+			cur->open = 800 / door->perp_wall_dist;
+		if (door->perp_wall_dist > 2 && cur->open > 0)
+			cur->open -= 25 / door->perp_wall_dist;
+		if (cur->open < 0)
+			cur->open = 0;
+		cur->flag = 1;
 	}
 }
 
-void	calc_door_dist(t_info *info, t_wall *door)
+static void	close_door(t_info *info)
+{
+	t_door	*cur;
+
+	cur = info->head;
+	while (cur != NULL)
+	{
+		if (cur->flag == 0)
+			cur->open = 0;
+		cur->flag = 0;
+		cur = cur->next;
+	}
+}
+
+static void	calc_door_dist(t_info *info, t_wall *door)
 {
 	double	camera_x;
 
@@ -50,7 +171,7 @@ void	calc_door_dist(t_info *info, t_wall *door)
 				+ (1 - door->step.y) / 2) / door->ray_dir.y;
 }
 
-int	hit_door(t_info *info, t_wall *door)
+static int	hit_door(t_info *info, t_wall *door)
 {
 	t_dpos	delta_dist;
 	t_dpos	side_dist;
@@ -70,7 +191,7 @@ int	hit_door(t_info *info, t_wall *door)
 	return (check_hit_door(&side_dist, &delta_dist, door, info));
 }
 
-int	check_hit_door(t_dpos *side_dist, t_dpos *delta_dist, t_wall *door, t_info *info)
+static int	check_hit_door(t_dpos *side_dist, t_dpos *delta_dist, t_wall *door, t_info *info)
 {
 	int	side;
 
@@ -94,7 +215,7 @@ int	check_hit_door(t_dpos *side_dist, t_dpos *delta_dist, t_wall *door, t_info *
 	}
 }
 
-void	find_door_part(t_info *info, t_wall *door)
+static void	find_door_part(t_info *info, t_wall *door)
 {
 	door->line_height = (int)(HEIGHT / door->perp_wall_dist);
 	door->draw_start = -door->line_height / 2 + HEIGHT / 2;
@@ -110,10 +231,10 @@ void	find_door_part(t_info *info, t_wall *door)
 	door->ratio -= floor(door->ratio);
 }
 
-void	put_buf_door_line(t_info *info, t_wall *door)
+static void	put_buf_door_line(t_info *info, t_wall *door, t_door *cur)
 {
-	double	delta_step;
-	double	tex_pos;
+	double			delta_step;
+	double			tex_pos;
 
 	door->tex.x = (int)(door->ratio * (double) TEX_WIDTH);
 	if (door->side == 0 && door->ray_dir.x > 0)
@@ -127,8 +248,8 @@ void	put_buf_door_line(t_info *info, t_wall *door)
 	while (++door->a < door->draw_end)
 	{
 		door->tex.y = (int) tex_pos & (TEX_HEIGHT - 1);
-		if (info->map->map[door->map.x][door->map.y] == 'D')
-			info->buf[door->a][door->b] = info->texture[4]
+		if (cur != NULL && door->a - cur->open > 0)
+			info->buf[door->a - cur->open][door->b] = info->texture[4]
 			[TEX_HEIGHT * door->tex.y + door->tex.x];
 		tex_pos += delta_step;
 	}
