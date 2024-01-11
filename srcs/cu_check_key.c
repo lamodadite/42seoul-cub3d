@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:48:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/09 20:45:49 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/11 16:22:02 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	press_key(int key, t_info *info)
 {
+	if (key == K_ESC || key == X_EVENT_KEY_EXIT)
+		exit(0);
 	press_front_back_key(key, info);
 	press_left_right_key(key, info);
 	press_left_rotate_key(key, info);
 	press_right_rotate_key(key, info);
-	if (key == K_ESC)
-		exit(0);
 	mlx_clear_window(info->mlx, info->win);
 	rendering(info);
 	return (0);

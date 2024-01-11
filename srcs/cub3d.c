@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2024/01/11 14:40:56 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/11 17:17:32 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ int	rendering(t_info *info)
 	return (1);
 }
 
+int	close_mlx_window(void *param)
+{
+	(void) param;
+	exit(0);
+}
+
 int	main(int ac, char **av)
 {
 	t_map	map;
@@ -54,6 +60,8 @@ int	main(int ac, char **av)
 	load_texture(&info);
 	init_mlx_window_img(&info);
 	mlx_hook(info.win, X_EVENT_KEY_PRESS, 0, &press_key, &info);
+	mlx_hook(info.win, X_EVENT_KEY_EXIT, 0, &close_mlx_window, &info);
+	mlx_hook(info.win, X_EVENT_MOUSE, 0, &controll_mouse, &info);
 	mlx_loop_hook(info.mlx, &rendering, &info);
 	mlx_loop(info.mlx);
 }

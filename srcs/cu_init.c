@@ -61,6 +61,7 @@ void	init_info(t_info *info, t_map *map)
 	info->plane.y = 0.0;
 	init_dir(info, map);
 	info->re_buf = 0;
+	info->pre_mouse_pos_x = 0;
 	info->map = map;
 	info->move_speed = 0.075;
 	info->rot_speed = 0.075;

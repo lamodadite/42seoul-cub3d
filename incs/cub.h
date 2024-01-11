@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/11 15:31:26 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/11 17:09:48 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # define X_EVENT_KEY_PRESS	2
 # define X_EVENT_KEY_EXIT	17
+# define X_EVENT_MOUSE 6
 # define TEX_WIDTH 64
 # define TEX_HEIGHT 64
 # define WIDTH 640
@@ -96,6 +97,7 @@ typedef struct s_info
 	t_dpos		dir;
 	t_dpos		plane;
 	t_map		*map;
+	int			pre_mouse_pos_x;
 	char		minimap[MINIMAP_UNIT][MINIMAP_UNIT];
 	void		*mlx;
 	void		*win;
@@ -198,5 +200,8 @@ void	init_mlx_window_img(t_info *info);
 void	draw_minimap(t_info *info);
 int		get_map_idx(int n, int len);
 void	set_minimap(t_info *info);
+
+/* cu_controll_mouse.c */
+int		controll_mouse(int x, int y, t_info *info);
 
 #endif
