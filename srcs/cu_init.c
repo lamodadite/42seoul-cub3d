@@ -53,6 +53,7 @@ void	init_info(t_info *info, t_map *map)
 {
 	int	i;
 
+	info->head = make_door_list(map);
 	info->pos.x = map->pp.x + 0.51;
 	info->pos.y = map->pp.y + 0.51;
 	info->dir.x = 0;
