@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 20:06:22 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:58:49 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,10 @@ typedef struct s_wall
 }	t_wall;
 
 /* cub3d.c */
+void	get_map(t_map *map, char *map_path);
 int		rendering(t_info *info);
 void	draw(t_info *info);
+int		close_mlx_window(void *param);
 
 /* cu_load_data */
 void	load_image(t_info *info, int *texture, char *path, t_img *img);
@@ -156,36 +158,47 @@ void	press_right_rotate_key(int key, t_info *info);
 /* cu_cast_floor */
 void	cast_floor(t_info *info);
 
-/* cast_wall.c */
-void	cast_wall(t_info *info);
-void	calc_wall_dist(t_info *info, t_wall *wall);
-int		hit_wall(t_info *info, t_wall *wall);
-int		check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall, t_info *info);
+/* cu_cast_wall_utils.c */
 void	find_draw_part(t_info *info, t_wall *wall);
 int		get_wall_color(t_info *info, t_wall *wall);
 void	put_buf_wall_line(t_info *info, t_wall *wall);
 
-/* cu_parse_texture.c */
+/* cu_cast_wall.c */
+void	cast_wall(t_info *info);
+void	calc_wall_dist(t_info *info, t_wall *wall);
+int		hit_wall(t_info *info, t_wall *wall);
+int		check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall, t_info *info);
+
+/* cu_parse_utils.c */
 void	check_map_name(char *map_name);
 int		is_map_element(char c);
-int		is_texture_identifier(char *line);
-int		is_texture_element(char *line);
-void	is_duplicated_path(int identifier, char *path, t_map *map);
 void	is_valid_path(int identifier, char *path, t_map *map);
-void	check_color_is_valid(t_map *map, char *line, char identifier);
+void	is_duplicated_path(int identifier, char *path, t_map *map);
+
+/* cu_parse_texture.c */
 void	set_texture_path(t_map *map, char *line);
 void	get_texture(t_map *map, int fd);
 void	load_file(char *map_path, t_map *map);
-int		is_map_element_arr(char *line);
+
+/* cu_texture_utils.c */
+int		is_texture_identifier(char *line);
+int		is_texture_element(char *line);
+void	check_color_is_valid(t_map *map, char *line, char identifier);
 void	trim_textures(t_texture *texture);
 
-/* cu_parse_map.c */
-void	get_map(t_map *map, char *map_path);
-void	set_map_width_height(t_map *map, int fd);
-char	*move_to_map_element(int fd);
-void	set_map_width(t_map *map, char *line);
+/* cu_parse_map_utils.c */
+int		is_map_element_arr(char *line);
 void	check_map_is_surrouned(t_map *map, int h, int w);
 void	check_map_is_valid(t_map *map);
+void	check_door_is_surrounded(t_map *map, int x, int y);
+char	*move_to_map_element(int fd);
+
+/* cu_parse_map.c */
+void	set_map_width_height(t_map *map, int fd);
+void	set_map_width(t_map *map, char *line);
+void	pre_set_map(t_map *map);
+void	set_map_component(t_map *map, char *line, int height_cnt, int *pos_flag);
+void	set_map_elements(t_map *map, char *map_path);
 
 /* cu_utils.c */
 void	print_error_and_exit(char *message);
@@ -209,8 +222,8 @@ void	draw_minimap(t_info *info);
 int		get_map_idx(int n, int len);
 void	set_minimap(t_info *info);
 
-/* cu_controll_mouse.c */
-int		controll_mouse(int x, int y, t_info *info);
+/* cu_control_mouse.c */
+int		control_mouse(int x, int y, t_info *info);
 
 /* cu_cast_door.c */
 void	cast_door(t_info *info);

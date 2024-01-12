@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:12:39 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/11 22:12:40 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:03:25 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_mlx_window_img(t_info *info)
 	info->win = mlx_new_window(info->mlx, WIDTH, HEIGHT, "mlx");
 	info->img.img = mlx_new_image(info->mlx, WIDTH, HEIGHT);
 	info->img.data = (int *)mlx_get_data_addr(info->img.img, &info->img.bpp,
-		&info->img.size_l, &info->img.endian);
+			&info->img.size_l, &info->img.endian);
 }
 
 void	init_map(t_map *map)

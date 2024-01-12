@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cu_draw_minimap.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/12 20:57:15 by jongmlee          #+#    #+#             */
+/*   Updated: 2024/01/12 20:59:28 by jongmlee         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 void	draw_minimap(t_info *info)
@@ -8,11 +20,11 @@ void	draw_minimap(t_info *info)
 	int	map_y;
 
 	set_minimap(info);
-	x = 0;
-	while (x < (int)(MINIMAP_SCALE * HEIGHT))
+	x = -1;
+	while (++x < (int)(MINIMAP_SCALE * HEIGHT))
 	{
-		y = 0;
-		while (y < (int)(MINIMAP_SCALE * WIDTH))
+		y = -1;
+		while (++y < (int)(MINIMAP_SCALE * WIDTH))
 		{
 			map_x = get_map_idx(x, (int)(MINIMAP_SCALE * HEIGHT));
 			map_y = get_map_idx(y, (int)(MINIMAP_SCALE * WIDTH));
@@ -24,9 +36,7 @@ void	draw_minimap(t_info *info)
 				info->buf[x][y] = 0xADD8E6;
 			else
 				info->buf[x][y] = 0x000000;
-			y++;
 		}
-		x++;
 	}
 }
 
@@ -45,8 +55,8 @@ void	set_minimap(t_info *info)
 		{
 			pos_x = (int)info->pos.x - (MINIMAP_UNIT / 2) + i;
 			pos_y = (int)info->pos.y - (MINIMAP_UNIT / 2) + j;
-			if (pos_x < 0 || pos_y < 0 ||
-				pos_x >= info->map->height || pos_y >= info->map->width)
+			if (pos_x < 0 || pos_y < 0
+				|| pos_x >= info->map->height || pos_y >= info->map->width)
 				info->minimap[i][j] = '0';
 			else
 				info->minimap[i][j] = info->map->map[pos_x][pos_y];
@@ -59,7 +69,7 @@ void	set_minimap(t_info *info)
 
 int	get_map_idx(int n, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < MINIMAP_UNIT)

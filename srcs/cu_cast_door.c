@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_cast_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:25:25 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 14:00:41 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:55:46 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	put_buf_individual(t_info *info, double *arr, int i, t_wall *door)
 	}
 	info->map->map[cur->map.x][cur->map.y] = '0';
 }
+
 void	open_door(t_wall *door, t_door *cur)
 {
 	if (cur->flag == 0)

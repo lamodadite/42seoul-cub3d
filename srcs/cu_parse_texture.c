@@ -6,145 +6,11 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:11:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 20:29:12 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:44:37 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-void	check_map_name(char *map_name)
-{
-	int	len;
-
-	len = ft_strlen(map_name);
-	if (len < 4)
-		print_error_and_exit("check map name error\n");
-	if (map_name[len - 1] != 'b' || map_name[len - 2] != 'u'
-		|| map_name[len - 3] != 'c' || map_name[len - 4] != '.')
-		print_error_and_exit("check map name error\n");
-}
-
-int	is_map_element(char c)
-{
-	int	result;
-
-	result = 0;
-	if (c == ' ' || c == '1' || c == '0' || c == 'N'
-		|| c == 'S' || c == 'E' || c == 'W' || c == 'D')
-		result = 1;
-	return (result);
-}
-
-int	is_texture_identifier(char *line)
-{
-	int	result;
-
-	result = 0;
-	if (ft_strncmp(line, "NO", 3) == 0)
-		result = 1;
-	else if (ft_strncmp(line, "SO", 3) == 0)
-		result = 2;
-	else if (ft_strncmp(line, "EA", 3) == 0)
-		result = 3;
-	else if (ft_strncmp(line, "WE", 3) == 0)
-		result = 4;
-	else if (ft_strncmp(line, "F", 2) == 0)
-		result = 5;
-	else if (ft_strncmp(line, "C", 2) == 0)
-		result = 6;
-	return (result);
-}
-
-int	is_texture_element(char *line)
-{
-	char	**splited_line;
-	int		result;
-
-	splited_line = ft_split(line, ' ');
-	result = 0;
-	if (is_texture_identifier(splited_line[0]) == 0)
-		result = 1;
-	else if (splited_line[1] == NULL)
-		result = 1;
-	else if (splited_line[2] != NULL)
-		result = 1;
-	free_2d_array(splited_line);
-	return (result);
-}
-
-void	is_duplicated_path(int identifier, char *path, t_map *map)
-{
-	int	i;
-
-	i = 1;
-	if (i++ != identifier)
-	{
-		if (map->texture.no_path != NULL && ft_strncmp(path, map->texture.no_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated no_path error\n");
-	}
-	if (i++ != identifier)
-	{
-		if (map->texture.so_path != NULL && ft_strncmp(path, map->texture.so_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated so_path error\n");
-	}
-	if (i++ != identifier)
-	{
-		if (map->texture.we_path != NULL && ft_strncmp(path, map->texture.we_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated we_path error\n");
-	}
-	if (i != identifier)
-	{
-		if (map->texture.ea_path != NULL && ft_strncmp(path, map->texture.ea_path, ft_strlen(path)) == 0)
-			print_error_and_exit("duplicated ea_path error\n");
-	}
-}
-
-void	is_valid_path(int identifier, char *path, t_map *map)
-{
-	int		fd;
-
-	if (identifier == NO || identifier == SO
-		|| identifier == WE || identifier == EA)
-	{
-		is_duplicated_path(identifier, path, map);
-		if (path[ft_strlen(path) - 1] == '\n')
-			path[ft_strlen(path) - 1] = '\0';
-		fd = open(path, O_RDONLY);
-		if (fd < 0)
-			print_error_and_exit("file open error\n");
-		close(fd);
-	}
-}
-
-void	check_color_is_valid(t_map *map, char *line, char identifier)
-{
-	char	**splited_line;
-	int		i;
-	int		j;
-
-	if (line[ft_strlen(line) - 1] == '\n')
-		line[ft_strlen(line) - 1] = '\0';
-	splited_line = ft_split(line, ',');
-	if (get_str_2d_len(splited_line) != 3)
-		print_error_and_exit("invalid color\n");
-	i = -1;
-	while (++i < 3)
-	{
-		if (ft_strlen(splited_line[i]) > 3)
-			print_error_and_exit("color value is over 255\n");
-		j = -1;
-		while (++j < (int)ft_strlen(splited_line[i]))
-		{
-			if (ft_isdigit(splited_line[i][j]) == 0)
-				print_error_and_exit("color value isn't numeric\n");
-		}
-		if (identifier == 'F')
-			map->texture.f_color[i] = ft_atoi(splited_line[i]);
-		else if (identifier == 'C')
-			map->texture.c_color[i] = ft_atoi(splited_line[i]);
-	}
-	free_2d_array(splited_line);
-}
 
 void	set_texture_path(t_map *map, char *line)
 {
@@ -170,18 +36,6 @@ void	set_texture_path(t_map *map, char *line)
 	is_valid_path(identifier, splited_line[1], map);
 	free_2d_array(splited_line);
 	map->texture.cnt++;
-}
-
-void	trim_textures(t_texture *texture)
-{
-	if (texture->no_path[ft_strlen(texture->no_path) - 1] == '\n')
-		texture->no_path[ft_strlen(texture->no_path) - 1] = '\0';
-	if (texture->so_path[ft_strlen(texture->so_path) - 1] == '\n')
-		texture->so_path[ft_strlen(texture->so_path) - 1] = '\0';
-	if (texture->we_path[ft_strlen(texture->we_path) - 1] == '\n')
-		texture->we_path[ft_strlen(texture->we_path) - 1] = '\0';
-	if (texture->ea_path[ft_strlen(texture->ea_path) - 1] == '\n')
-		texture->ea_path[ft_strlen(texture->ea_path) - 1] = '\0';
 }
 
 void	get_texture(t_map *map, int fd)

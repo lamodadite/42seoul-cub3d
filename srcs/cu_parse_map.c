@@ -6,7 +6,7 @@
 /*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:11:47 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 20:25:03 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:57:43 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,6 @@ void	set_map_width(t_map *map, char *line)
 	}
 	if (i > map->width)
 		map->width = i;
-}
-
-int	is_map_element_arr(char *line)
-{
-	int	i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	if (line[0] == '\n')
-		return (0);
-	while (line[i] != '\0' && line[i] != '\n')
-	{
-		if (is_map_element(line[i]) == 0)
-			return (0);
-		if (line[i] != ' ')
-			flag = 1;
-		i++;
-	}
-	if (flag == 0)
-		return (0);
-	return (1);
-}
-
-char	*move_to_map_element(int fd)
-{
-	char	*line;
-
-	line = get_next_line(fd);
-	while (1)
-	{
-		if (line == NULL)
-			return (line);
-		if (is_map_element_arr(line) == 1)
-			break ;
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (line);
 }
 
 void	set_map_width_height(t_map *map, int fd)
@@ -116,7 +77,8 @@ void	set_map_component(t_map *map, char *line, int height_cnt, int *pos_flag)
 	width = 0;
 	while (line[width] != '\0' && line[width] != '\n')
 	{
-		if (line[width] != ' ' && line[width] != '0' && line[width] != '1' && line[width] != 'D')
+		if (line[width] != ' ' && line[width] != '0'
+			&& line[width] != '1' && line[width] != 'D')
 		{
 			if (*pos_flag == 1)
 				print_error_and_exit("player position must be one\n");
@@ -154,63 +116,4 @@ void	set_map_elements(t_map *map, char *map_path)
 		height_cnt++;
 	}
 	close(fd);
-}
-
-void	check_map_is_surrouned(t_map *map, int h, int w)
-{
-	if (w - 1 >= 0 && (map->map[h][w - 1] != ' ' && map->map[h][w - 1] != '1'))
-		print_error_and_exit("map must be closed by wall\n");
-	if (w + 1 < map->width && map->map[h][w + 1] != ' ' && map->map[h][w + 1] != '1')
-		print_error_and_exit("map must be closed by wall\n");
-	if (h + 1 < map->height && map->map[h + 1][w] != ' ' && map->map[h + 1][w] != '1')
-		print_error_and_exit("map must be closed by wall\n");
-	if (h - 1 >= 0 && map->map[h - 1][w] != ' ' && map->map[h - 1][w] != '1')
-		print_error_and_exit("map must be closed by wall\n");
-}
-
-void	check_door_is_surrounded(t_map *map, int x, int y)
-{
-	if ((map->map[x - 1][y] == '1' && map->map[x + 1][y] == '1') ||
-		(map->map[x][y - 1] == '1' && map->map[x][y + 1] == '1'))
-		return ;
-	print_error_and_exit("door must be surrounded by wall\n");
-}
-
-void	check_map_is_valid(t_map *map)
-{
-	int	x;
-	int	y;
-
-	x = -1;
-	while (++x < map->height)
-	{
-		y = -1;
-		while (++y < map->width)
-		{
-			if ((x == 0 || x == map->height - 1) &&
-				(map->map[x][y] != ' ' && map->map[x][y] != '1'))
-				print_error_and_exit("map must be closed by wall\n");
-			if ((y == 0 || y == map->width - 1) &&
-				(map->map[x][y] != ' ' && map->map[x][y] != '1'))
-				print_error_and_exit("map must be closed by wall\n");
-			if (map->map[x][y] == ' ')
-				check_map_is_surrouned(map, x, y);
-			if (map->map[x][y] == 'D')
-				check_door_is_surrounded(map, x, y);
-		}
-	}
-	if (map->dir == 0)
-		print_error_and_exit("no character\n");
-}
-
-void	get_map(t_map *map, char *map_path)
-{
-	int	fd;
-
-	fd = open(map_path, O_RDONLY);
-	if (fd < 0)
-		print_error_and_exit("file open error\n");
-	set_map_width_height(map, fd);
-	set_map_elements(map, map_path);
-	check_map_is_valid(map);
 }
