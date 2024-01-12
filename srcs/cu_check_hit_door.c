@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:57:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 13:45:15 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:47:44 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	put_buf_door_line(t_info *info, t_wall *door, t_door *cur)
 	{
 		door->tex.y = (int) tex_pos & (TEX_HEIGHT - 1);
 		if (cur != NULL && door->a - cur->open > 0)
-			info->buf[door->a][door->b] = info->texture[4]
+			info->buf[door->a - cur->open][door->b] = info->texture[4]
 			[TEX_HEIGHT * door->tex.y + door->tex.x];
 		tex_pos += delta_step;
 	}
