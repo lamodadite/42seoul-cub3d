@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 15:10:04 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:22:10 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ void	check_map_is_valid(t_map *map);
 void	print_error_and_exit(char *message);
 void	free_2d_array(char **arr);
 int		get_str_2d_len(char **s);
+void	ending_free(t_info *info);
 
 /* cu_debug.c */
 void	print_texture_struct(t_texture texture);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_check_key.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:48:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/11 21:26:48 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:13:21 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	press_key(int key, t_info *info)
 {
 	if (key == K_ESC || key == X_EVENT_KEY_EXIT)
+	{
+		ending_free(info);
 		exit(0);
+	}
 	press_front_back_key(key, info);
 	press_left_right_key(key, info);
 	press_left_rotate_key(key, info);

@@ -12,7 +12,7 @@ INCS = cub.h keys.h
 LIBFT = -Ilibft -Llibft -lft
 LIBFT_DIR = libft
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 INC_FLAGS = -I $(INC_DIR) -Ilibft
 CLIB	= -Lmlx -lmlx -framework OpenGL -framework Appkit
 

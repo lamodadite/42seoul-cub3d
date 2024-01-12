@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cu_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/12 20:13:45 by hyeongsh          #+#    #+#             */
+/*   Updated: 2024/01/12 20:21:42 by hyeongsh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 void	print_error_and_exit(char *message)
@@ -31,4 +43,21 @@ int	get_str_2d_len(char **s)
 	while (s[i] != NULL)
 		i++;
 	return (i);
+}
+
+void	ending_free(t_info *info)
+{
+	t_door	*cur;
+
+	free(info->map->texture.no_path);
+	free(info->map->texture.so_path);
+	free(info->map->texture.we_path);
+	free(info->map->texture.ea_path);
+	free_2d_array(info->map->map);
+	while (info->head != NULL)
+	{
+		cur = info->head;
+		info->head = info->head->next;
+		free(cur);
+	}
 }

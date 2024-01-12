@@ -45,8 +45,8 @@ void	set_minimap(t_info *info)
 		{
 			pos_x = (int)info->pos.x - (MINIMAP_UNIT / 2) + i;
 			pos_y = (int)info->pos.y - (MINIMAP_UNIT / 2) + j;
-			if (pos_x < 0 || pos_y < 0 ||
-				pos_x >= info->map->height || pos_y >= info->map->width)
+			if (pos_x < 0 || pos_y < 0
+				|| pos_x >= info->map->height || pos_y >= info->map->width)
 				info->minimap[i][j] = '0';
 			else
 				info->minimap[i][j] = info->map->map[pos_x][pos_y];
