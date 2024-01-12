@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cu_parse_texture.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:11:37 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/11 22:12:10 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:29:12 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	check_color_is_valid(t_map *map, char *line, char identifier)
 		else if (identifier == 'C')
 			map->texture.c_color[i] = ft_atoi(splited_line[i]);
 	}
+	free_2d_array(splited_line);
 }
 
 void	set_texture_path(t_map *map, char *line)
@@ -195,13 +196,17 @@ void	get_texture(t_map *map, int fd)
 		if (is_map_element_arr(line) == 1)
 			break ;
 		else if (ft_strncmp(line, "\n", 2) == 0)
+		{
+			free(line);
 			continue ;
+		}
 		else if (is_texture_element(line) == 0)
 			set_texture_path(map, line);
 		else
 			print_error_and_exit("invalid element\n");
 		free(line);
 	}
+	free(line);
 	if (map->texture.cnt != 6)
 		print_error_and_exit("number of texture is wrong\n");
 	trim_textures(&map->texture);

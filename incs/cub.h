@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 15:10:04 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:06:22 by jongmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ int		check_hit_wall(t_dpos *side_dist, t_dpos *delta_dist, t_wall *wall, t_info 
 void	find_draw_part(t_info *info, t_wall *wall);
 int		get_wall_color(t_info *info, t_wall *wall);
 void	put_buf_wall_line(t_info *info, t_wall *wall);
-void	find_floor_pos(t_wall *wall);
 
 /* cu_parse_texture.c */
 void	check_map_name(char *map_name);
