@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/11 21:27:48 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:45:23 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,8 +215,26 @@ int		controll_mouse(int x, int y, t_info *info);
 
 /* cu_cast_door.c */
 void	cast_door(t_info *info);
+void	calc_door_dist(t_info *info, t_wall *door);
+void	open_door(t_wall *door, t_door *cur);
+void	close_door(t_info *info, t_wall *door);
+void	put_buf_individual(t_info *info, double *arr, int i, t_wall *door);
 
-/* cu_make_door.c */
+/* cu_make_door_list.c */
 t_door	*make_door_list(t_map *map);
+
+/* cu_check_hit_door.c */
+void	calc_door_dist(t_info *info, t_wall *door);
+int		hit_door(t_info *info, t_wall *door);
+int		check_hit_door(t_dpos *side_dist, t_dpos *delta_dist,
+			t_wall *door, t_info *info);
+void	find_door_part(t_info *info, t_wall *door);
+void	put_buf_door_line(t_info *info, t_wall *door, t_door *cur);
+
+/* cu_door_utils.c */
+int		check_door_order(t_info *info);
+double	*sort_door_arr(t_info *info, int door_num);
+void	swap_arr(double *arr, int j);
+t_door	*find_i_door(t_info *info, double dist);
 
 #endif
