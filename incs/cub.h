@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:55:32 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/12 21:04:59 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:07:40 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_map
 	t_texture	texture;
 }	t_map;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img;
 	int		*data;

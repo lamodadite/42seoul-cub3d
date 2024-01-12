@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongmlee <jongmlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:22:47 by jongmlee          #+#    #+#             */
-/*   Updated: 2023/11/25 13:18:13 by jongmlee         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:07:33 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	del(char **words, int idx)
 	return (1);
 }
 
-static char *make_word(const char *str, char c)
+static char	*make_word(const char *str, char c)
 {
 	size_t		i;
 	size_t		len;
