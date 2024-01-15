@@ -1,6 +1,6 @@
 NAME = cub3D
 SRC_DIR = srcs
-SRCS = cu_parse_texture.c cu_parse_map.c cu_utils.c cu_debug.c \
+SRCS = cu_parse_texture.c cu_parse_map.c cu_utils.c \
 cu_init.c cub3d.c cu_load_data.c cu_cast_floor.c cu_cast_wall.c cu_draw_minimap.c \
 cu_check_key.c cu_control_mouse.c cu_make_door_list.c cu_cast_door.c cu_check_hit_door.c \
 cu_door_utils.c cu_parse_map_utils.c cu_parse_utils.c cu_texture_utils.c cu_cast_wall_utils.c
